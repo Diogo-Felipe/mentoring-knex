@@ -1,6 +1,12 @@
 const express = require("express");
 
-const { index, create, getAll } = require("../../controllers/GymsController");
+const {
+  index,
+  create,
+  getAll,
+  deleteGym,
+  updateGym,
+} = require("../../controllers/GymsController");
 
 const gyms = express.Router();
 
@@ -14,6 +20,14 @@ gyms.get("/", (request, response) => {
 
 gyms.post("/", (request, response) => {
   create(request, response);
+});
+
+gyms.delete("/:cnpj", (request, response) => {
+  deleteGym(request, response);
+});
+
+gyms.put("/:cnpj", (request, response) => {
+  updateGym(request, response);
 });
 
 module.exports = {

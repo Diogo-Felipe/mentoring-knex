@@ -17,8 +17,23 @@ const modelCreate = async (cnpj, name) => {
     .returning("*");
 };
 
+const modelDeleteGym = async (cpnj) => {
+  return await connection("gyms").where("cnpj", cpnj).delete();
+};
+
+const modelUpdateGym = async (cnpj, name) => {
+  return await connection("gyms").where("cnpj", cnpj).update(
+    {
+      name,
+    },
+    ["cnpj", "name"]
+  );
+};
+
 module.exports = {
   getByCnpj,
   modelGetAll,
   modelCreate,
+  modelDeleteGym,
+  modelUpdateGym,
 };
