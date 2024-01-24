@@ -1,54 +1,46 @@
-const {
-  modelGetAll,
-  modelCreate,
-  getByCnpj,
-  modelDeleteGym,
-  modelUpdateGym,
-} = require("../../models/GymsModel");
+class GymsController {
+  constructor(gymsModel) {
+    this.gymsModel = gymsModel;
+  }
 
-const index = async (request, response) => {
-  const { cnpj } = request.params;
+  async index(request, response) {
+    const { cnpj } = request.params;
 
-  const gyms = await getByCnpj(cnpj);
+    const gyms = await this.gymsModel.getByCnpj(cnpj);
 
-  return response.status(200).json(gyms);
-};
+    return response.status(200).json(gyms);
+  }
 
-const getAll = async (request, response) => {
-  const gyms = await modelGetAll();
+  async getAll(request, response) {
+    const gyms = await this.gymsModel.getAll();
 
-  return response.status(200).json(gyms);
-};
+    return response.status(200).json(gyms);
+  }
 
-const create = async (request, response) => {
-  const { cnpj, name } = request.body;
+  async create(request, response) {
+    const { cnpj, name } = request.body;
 
-  const gym = await modelCreate(cnpj, name);
+    const gym = await this.gymsModel.create(cnpj, name);
 
-  return response.status(200).json(gym);
-};
+    return response.status(200).json(gym);
+  }
 
-const deleteGym = async (request, response) => {
-  const { cnpj } = request.params;
+  async delete(request, response) {
+    const { cnpj } = request.params;
 
-  const gym = await modelDeleteGym(cnpj);
+    const gym = await this.gymsModel.delete(cnpj);
 
-  return response.status(204).json(gym);
-};
+    return response.status(204).json(gym);
+  }
 
-const updateGym = async (request, response) => {
-  const { cnpj } = request.params;
-  const { name } = request.body;
+  async update(request, response) {
+    const { cnpj } = request.params;
+    const { name } = request.body;
 
-  const gym = await modelUpdateGym(cnpj, name);
+    const gym = await this.gymsModel.update(cnpj, name);
 
-  return response.status(200).json(gym);
-};
+    return response.status(200).json(gym);
+  }
+}
 
-module.exports = {
-  index,
-  create,
-  getAll,
-  deleteGym,
-  updateGym,
-};
+module.exports = GymsController;

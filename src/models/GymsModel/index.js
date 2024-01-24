@@ -1,39 +1,40 @@
-const connection = require("../../database/connection");
+class GymsModel {
+  constructor(connection) {
+    this.connection = connection;
+  }
 
-const getByCnpj = async (cnpj) => {
-  return await connection("gyms").select("*").where("cnpj", cnpj).first();
-};
+  async getByCnpj(cnpj) {
+    return await this.connection("gyms")
+      .select("*")
+      .where("cnpj", cnpj)
+      .first();
+  }
 
-const modelGetAll = async () => {
-  return await connection("gyms").select("*");
-};
+  async getAll() {
+    return await this.connection("gyms").select("*");
+  }
 
-const modelCreate = async (cnpj, name) => {
-  return await connection("gyms")
-    .insert({
-      cnpj,
-      name,
-    })
-    .returning("*");
-};
+  async create(cnpj, name) {
+    return await this.connection("gyms")
+      .insert({
+        cnpj,
+        name,
+      })
+      .returning("*");
+  }
 
-const modelDeleteGym = async (cpnj) => {
-  return await connection("gyms").where("cnpj", cpnj).delete();
-};
+  async delete(cpnj) {
+    return await this.connection("gyms").where("cnpj", cpnj).delete();
+  }
 
-const modelUpdateGym = async (cnpj, name) => {
-  return await connection("gyms").where("cnpj", cnpj).update(
-    {
-      name,
-    },
-    ["cnpj", "name"]
-  );
-};
+  async update(cnpj, name) {
+    return await this.connection("gyms").where("cnpj", cnpj).update(
+      {
+        name,
+      },
+      ["cnpj", "name"]
+    );
+  }
+}
 
-module.exports = {
-  getByCnpj,
-  modelGetAll,
-  modelCreate,
-  modelDeleteGym,
-  modelUpdateGym,
-};
+module.exports = GymsModel;

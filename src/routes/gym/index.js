@@ -1,35 +1,35 @@
 const express = require("express");
 
-const {
-  index,
-  create,
-  getAll,
-  deleteGym,
-  updateGym,
-} = require("../../controllers/GymsController");
+class GymsRouter {
+  constructor(gymsController) {
+    this.gyms = express.Router();
 
-const gyms = express.Router();
+    this.gymsController = gymsController;
 
-gyms.get("/:cnpj", (request, response) => {
-  index(request, response);
-});
+    gyms.get("/:cnpj", (request, response) => {
+      this.gymsController.index(request, response);
+    });
 
-gyms.get("/", (request, response) => {
-  getAll(request, response);
-});
+    gyms.get("/", (request, response) => {
+      this.gymsController.getAll(request, response);
+    });
 
-gyms.post("/", (request, response) => {
-  create(request, response);
-});
+    gyms.post("/", (request, response) => {
+      this.gymsController.create(request, response);
+    });
 
-gyms.delete("/:cnpj", (request, response) => {
-  deleteGym(request, response);
-});
+    gyms.delete("/:cnpj", (request, response) => {
+      this.gymsController.delete(request, response);
+    });
 
-gyms.put("/:cnpj", (request, response) => {
-  updateGym(request, response);
-});
+    gyms.put("/:cnpj", (request, response) => {
+      this.gymsController.update(request, response);
+    });
+  }
 
-module.exports = {
-  gyms,
-};
+  getRoutes() {
+    return this.gyms;
+  }
+}
+
+module.exports = GymsRouter;

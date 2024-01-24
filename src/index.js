@@ -2,11 +2,19 @@ const express = require("express");
 
 const app = express();
 
-const { gyms } = require("./routes/gym");
+const connection = require("./database/connection");
+
+const GymsModel = require("./models/GymsModel");
+const GymsController = require("./controllers/GymsController");
+const { GymsRouter } = require("./routes");
+
+const gymsModel = new GymsModel(connection);
+const gymsController = new GymsController(gymsModel);
+const gymsRouter = new GymsRouter(gymsController)
 
 app.use(express.json());
 
-app.use("/gyms", gyms);
+app.use("/gyms", gymsRouter.getRoutes());
 
 const PORT = 3000;
 
